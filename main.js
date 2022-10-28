@@ -17,7 +17,7 @@ const cardsOnDom = (arr) => {
   </div>
 </div>`;
   
-  renderToDom("#app", domString);
+  renderToDom("#sortingHat", domString);
 };
 
 
@@ -95,70 +95,3 @@ const expelStudents = (event) => {
 
 
 //randomNum function for sorting
-//redo everything below
-const sortTheDarkArmy = (array) => {
-  let domString = " ";
-
-  array.forEach((student) => {
-    domString += `
-        <div class="card evil" style="width: 18rem;">
-            <img src="https://static.wikia.nocookie.net/pottermore/images/7/71/Screenshot_-_10_5_2013_%2C_3_57_20_PM.png" class="card-img-top" alt="The Dark Mark!">
-            <div class="card-body">
-                <h5 class="card-title">${student.name}</h5>
-                <p class="card-text">This student is now a Death Eater!</p>
-            </div>
-        </div>
-`;
-
-    renderToDom("#expelledStudents", domString);
-  });
-};
-
-// Sorts students into houses and adds to the array.
-
-const sortStudents = () => {
-  const randomNumber = () => {
-    return Math.floor(Math.random() * 4) + 1;
-  };
-
-  const studentHouse = randomNumber();
-
-  if (studentHouse === 1) {
-    const student = {
-      name: document.querySelector("#studentName").value,
-      house: "Gryffindor",
-      crest: `https://static.wikia.nocookie.net/pottermore/images/1/16/Gryffindor_crest.png`,
-      style: "grif-style",
-    };
-    newStudents.push(student);
-  }
-  if (studentHouse === 2) {
-    const student = {
-      name: document.querySelector("#studentName").value,
-      house: "Hufflepuff",
-      crest: `https://static.wikia.nocookie.net/pottermore/images/5/5e/Hufflepuff_crest.png`,
-      style: "huff-style",
-    };
-    newStudents.push(student);
-  }
-  if (studentHouse === 3) {
-    const student = {
-      name: document.querySelector("#studentName").value,
-      house: "Ravenclaw",
-      crest: `https://static.wikia.nocookie.net/pottermore/images/4/4f/Ravenclaw_crest.png`,
-      style: "rave-style",
-    };
-    newStudents.push(student);
-  }
-  if (studentHouse === 4) {
-    const student = {
-      name: document.querySelector("#studentName").value,
-      house: "Slytherin",
-      crest: `https://static.wikia.nocookie.net/pottermore/images/4/45/Slytherin_Crest.png`,
-      style: "sly-style",
-    };
-    newStudents.push(student);
-  }
-
-  placeStudents(newStudents);
-};
