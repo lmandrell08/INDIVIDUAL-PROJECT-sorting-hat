@@ -8,7 +8,8 @@ const renderToDom = (divId, htmlToRender) => {
   selectedDiv.innerHTML= htmlToRender;
 };
 //cards on the DOM
-const cardsOnDom = (arr) => {
+const sortingHat = (arr) => {
+  console.log();
   let domString = `<div class="card" style="width: 18rem;">
   <div class="card-body">
     <h5 class="card-title">Welcome to your new home!</h5>
@@ -17,19 +18,35 @@ const cardsOnDom = (arr) => {
   </div>
 </div>`;
   
-  renderToDom("#app", domString);
+  renderToDom("#sortingHat", domString);
 };
+
+sortingHat();
+
+//form
+
+const studentForm = () => {}
+  
+  let domString = `
+  <form id="studentNameForm">
+  <div class="mb-3">
+  <label for="studentName" class="form-label">Student Name</label>
+  <input type="text" placeholder="Enter your name here." class="form-control" id="studentName">
+</div>
+<button type="submit" id="submitButton" class="btn btn-primary">Submit</button>
+</form>
+`;
+  
+  renderToDom("#studentForm", domString);
+
+
+studentForm();
+
 
 
 //button
-
-const button = () => {
-  document.querySelector(`body`).addEventListener("click", buttonControl);
-  document.querySelector(`#students`)
-  document.addEventListener("click", expelStudents);
-};
-
 const buttonControl = (event) => {
+  console.log();
   if (event.target.id === "startButton") {
     let domString = `
      <form id="studentNameForm">
@@ -42,24 +59,25 @@ const buttonControl = (event) => {
      `
 
     renderToDom("#studentForm", domString);
-  }
+  };
 
   if (event.target.id === "submitButton" && event.target.type === "submit") {
+    console.log(nameofStudent);
     const nameofStudent = document.getElementById("studentName").value;
-    if (nameofStudent === "") {
-      makeHowler();
-    } else {
-      event.preventDefault();
-      sortStudents();
-    }
+  
 
-    document.querySelector("form").reset();
+    document.querySelector("studentForm").reset();
   }
+
+
 };
+
+
 
 //student cards to page
 const placeStudents = (arr) => {
   let domString = " ";
+
 
   arr.forEach((student, i) => {
     domString += `
@@ -75,6 +93,7 @@ const placeStudents = (arr) => {
 
   renderToDom("#hogwartsStudents", domString);
 };
+
 
 //expels student to the dark army
 const expelStudents = (event) => {
@@ -94,28 +113,8 @@ const expelStudents = (event) => {
 };
 
 
+
 //randomNum function for sorting
-//redo everything below
-const sortTheDarkArmy = (array) => {
-  let domString = " ";
-
-  array.forEach((student) => {
-    domString += `
-        <div class="card evil" style="width: 18rem;">
-            <img src="https://static.wikia.nocookie.net/pottermore/images/7/71/Screenshot_-_10_5_2013_%2C_3_57_20_PM.png" class="card-img-top" alt="The Dark Mark!">
-            <div class="card-body">
-                <h5 class="card-title">${student.name}</h5>
-                <p class="card-text">This student is now a Death Eater!</p>
-            </div>
-        </div>
-`;
-
-    renderToDom("#expelledStudents", domString);
-  });
-};
-
-// Sorts students into houses and adds to the array.
-
 const sortStudents = () => {
   const randomNumber = () => {
     return Math.floor(Math.random() * 4) + 1;
@@ -162,3 +161,17 @@ const sortStudents = () => {
 
   placeStudents(newStudents);
 };
+
+
+
+
+//starts app
+
+const init = () => {
+  sortingHat();
+  button();
+  placeStudents(newStudents);
+  sortDeathEaters(deathEaters);
+};
+
+init();
