@@ -161,17 +161,3 @@ const sortStudents = () => {
 
   placeStudents(newStudents);
 };
-
-
-
-
-//starts app
-
-const init = () => {
-  sortingHat();
-  button();
-  placeStudents(newStudents);
-  sortDeathEaters(deathEaters);
-};
-
-init();
