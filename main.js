@@ -27,9 +27,8 @@ const sortingHat = (arr) => {
 
 sortingHat();
 //really doesn't need a button but we're leaving for now bc I don't want to break anything^
+
 //form
-
-
 const studentForm = () => {
   console.log("formElementRendered");
 //formElementRendered.reset('#studentName');
@@ -45,11 +44,11 @@ const studentForm = () => {
 </form>
 `;
 
-document.querySelector('#formDOM').reset();
 renderToDom('#formDOM', domString);
 }
 
 studentForm();
+
 
 //button 
 const button = () => {
@@ -75,20 +74,90 @@ const buttonControl = (event) => {
       }
       console.log(nameofStudent);
 
-    document.querySelector('#buttonDOM').reset();
-    renderToDom("#buttonDOM", domString)
+      document.querySelector('#studentNameForm').reset("click");
+      renderToDom('#formDOM', domString)
   }
   };
-
 
 //submitButton();
 button();
 
 
+//sorting students function
+const sortStudents = () => {
+  const randomNumber = () => {
+    return Math.floor(Math.random() * 4) + 1;
+  };
+
+  const studentHouse = randomNumber();
+
+  if (studentHouse === 1) {
+    const student = {
+      name: document.querySelector("#studentName").value,
+      house: "Gryffindor",
+      crest: `https://static.wikia.nocookie.net/pottermore/images/1/16/Gryffindor_crest.png`,
+      style: "grif-style",
+    };
+    newStudents.push(student);
+  }
+  if (studentHouse === 2) {
+    const student = {
+      name: document.querySelector("#studentName").value,
+      house: "Hufflepuff",
+      crest: `https://static.wikia.nocookie.net/pottermore/images/5/5e/Hufflepuff_crest.png`,
+      style: "huff-style",
+    };
+    newStudents.push(student);
+  }
+  if (studentHouse === 3) {
+    const student = {
+      name: document.querySelector("#studentName").value,
+      house: "Ravenclaw",
+      crest: `https://static.wikia.nocookie.net/pottermore/images/4/4f/Ravenclaw_crest.png`,
+      style: "rave-style",
+    };
+    newStudents.push(student);
+  }
+  if (studentHouse === 4) {
+    const student = {
+      name: document.querySelector("#studentName").value,
+      house: "Slytherin",
+      crest: `https://static.wikia.nocookie.net/pottermore/images/4/45/Slytherin_Crest.png`,
+      style: "sly-style",
+    };
+    newStudents.push(student);
+  }
+
+  placeStudents(newStudents);
+};
+sortStudents();
+
+//placing students function
+const placeStudents = (arr) => {
+  //console.log(placeStudents);
+  let domString = " ";
+
+  arr.forEach = {
+    domString : `
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">${student.name}</h5>
+                <p class="card-text">${student.house}</p>
+                <a href="#" type= "button" id= "${i}" class="btn btn-primary">Expel student</a>
+            </div>
+        </div>
+`
+  };
+
+  renderToDom("#hogwartsStudents", domString);
+};
+placeStudents();
 
   function startApp() {
     sortingHat();
     //submitButton();
+    sortStudents();
+    placeStudents();
 
   }
 startApp();
