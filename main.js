@@ -7,6 +7,10 @@ const renderToDom = (divId, htmlToRender) => {
   const selectedDiv = document.querySelector(divId);
   selectedDiv.innerHTML= htmlToRender;
 };
+//query selects
+const form = document.querySelector('#formDOM');
+
+
 //cards on the DOM
 const sortingHat = (arr) => {
   console.log();
@@ -17,147 +21,74 @@ const sortingHat = (arr) => {
     <a href="#" id="startButton" class="btn btn-primary">Here you are to be sorted in to your house.</a>
   </div>
 </div>`;
-  
-  renderToDom("#sortingHat", domString);
+   
+  renderToDom('#sortingHatDOM', domString);
 };
 
 sortingHat();
-
+//really doesn't need a button but we're leaving for now bc I don't want to break anything^
 //form
 
-const studentForm = () => {}
-  
+
+const studentForm = () => {
+  console.log("formElementRendered");
+//formElementRendered.reset('#studentName');
   let domString = `
-  <form id="studentNameForm">
-  <div class="mb-3">
-  <label for="studentName" class="form-label">Student Name</label>
-  <input type="text" placeholder="Enter your name here." class="form-control" id="studentName">
+  <form id=studentNameForm>
+  <h4>Enter name now</h4>
+  <div class="form-floating mb-3">
+  <input type="string" placeholder="Enter your name here." class="form-control" id="studentName" required>
+  <label for="studentName">Student Name</label>
 </div>
-<button type="submit" id="submitButton" class="btn btn-primary">Submit</button>
+
+<button class="btn btn-primary" type="submit">Submit</button>
 </form>
 `;
-  
-  renderToDom("#studentForm", domString);
 
+
+renderToDom('#formDOM', domString);
+}
 
 studentForm();
 
+//button 
+const button = () => {
+  console.log("button function called");
+  document.querySelector(`body`).addEventListener("click", buttonControl);
+  document
+    .querySelector(`students`)
+    .addEventListener("click", expelStudents);
+};
 
 
-//button
 const buttonControl = (event) => {
-  console.log();
-  if (event.target.id === "startButton") {
-    let domString = `
-     <form id="studentNameForm">
-     <div class="mb-3">
-       <label for="studentName" class="form-label">Student Name</label>
-       <input type="text" placeholder="Enter your name here." class="form-control" id="studentName">
-     </div>
-     <button type="submit" id="submitButton" class="btn btn-primary">Submit</button>
-     </form>
-     `
-
-    renderToDom("#studentForm", domString);
-  };
-
+  console.log("#submitButton");
+ 
   if (event.target.id === "submitButton" && event.target.type === "submit") {
-    console.log(nameofStudent);
+    //console.log(nameofStudent);
     const nameofStudent = document.getElementById("studentName").value;
-  
+      if (nameofStudent === "") {
+        callName();
+      } else {
+        event.preventDefault();
+        sortStudents();
+      }
+      //console.log(nameofStudent);
 
-    document.querySelector("studentForm").reset();
-  }
-
-
-};
-
-
-
-//student cards to page
-const placeStudents = (arr) => {
-  let domString = " ";
-
-
-  arr.forEach((student, i) => {
-    domString += `
-        <div class="card ${student.style}" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">${student.name}</h5>
-                <p class="card-text">${student.house}</p>
-                <a href="#" type= "button" id= "${i}" class="btn btn-primary">Expel student</a>
-            </div>
-        </div>
-`;
-  });
-
-  renderToDom("#hogwartsStudents", domString);
-};
-
-
-//expels student to the dark army
-const expelStudents = (event) => {
-  const targetType = event.target.type;
-  const targetId = event.target.id;
-
-  if (targetType === "button") {
-    event.preventDefault();
-
-    const expelledStudent = newStudents.splice(targetId, 1);
-
-    deathEaters.push(expelledStudent[0]);
-
-    sortDarkArmy(darkArmy);
-    placeStudents(newStudents);
-  }
-};
-
-
-
-//randomNum function for sorting
-const sortStudents = () => {
-  const randomNumber = () => {
-    return Math.floor(Math.random() * 4) + 1;
+    document.querySelector('#buttonDOM').reset();
+    renderToDom("#buttonDOM", domString)
+    
   };
 
-  const studentHouse = randomNumber();
+//submitButton();
+buttons();
 
-  if (studentHouse === 1) {
-    const student = {
-      name: document.querySelector("#studentName").value,
-      house: "Gryffindor",
-      crest: `https://static.wikia.nocookie.net/pottermore/images/1/16/Gryffindor_crest.png`,
-      style: "grif-style",
-    };
-    newStudents.push(student);
-  }
-  if (studentHouse === 2) {
-    const student = {
-      name: document.querySelector("#studentName").value,
-      house: "Hufflepuff",
-      crest: `https://static.wikia.nocookie.net/pottermore/images/5/5e/Hufflepuff_crest.png`,
-      style: "huff-style",
-    };
-    newStudents.push(student);
-  }
-  if (studentHouse === 3) {
-    const student = {
-      name: document.querySelector("#studentName").value,
-      house: "Ravenclaw",
-      crest: `https://static.wikia.nocookie.net/pottermore/images/4/4f/Ravenclaw_crest.png`,
-      style: "rave-style",
-    };
-    newStudents.push(student);
-  }
-  if (studentHouse === 4) {
-    const student = {
-      name: document.querySelector("#studentName").value,
-      house: "Slytherin",
-      crest: `https://static.wikia.nocookie.net/pottermore/images/4/45/Slytherin_Crest.png`,
-      style: "sly-style",
-    };
-    newStudents.push(student);
-  }
 
-  placeStudents(newStudents);
-};
+
+  function startApp() {
+    sortingHat();
+    submitButton();
+
+  }
+startApp();
+}
