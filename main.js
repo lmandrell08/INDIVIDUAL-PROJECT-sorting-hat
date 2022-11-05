@@ -41,11 +41,11 @@ const studentForm = () => {
   <label for="studentName">Student Name</label>
 </div>
 
-<button class="btn btn-primary" type="submit">Submit</button>
+<button class="btn btn-primary" id="submitButton" type="submit">Submit</button>
 </form>
 `;
 
-
+document.querySelector('#formDOM').reset();
 renderToDom('#formDOM', domString);
 }
 
@@ -55,9 +55,9 @@ studentForm();
 const button = () => {
   console.log("button function called");
   document.querySelector(`body`).addEventListener("click", buttonControl);
-  document
-    .querySelector(`students`)
-    .addEventListener("click", expelStudents);
+  //document
+    //.querySelector(`students`)
+    //.addEventListener("click", expelStudents);
 };
 
 
@@ -67,28 +67,28 @@ const buttonControl = (event) => {
   if (event.target.id === "submitButton" && event.target.type === "submit") {
     //console.log(nameofStudent);
     const nameofStudent = document.getElementById("studentName").value;
-      if (nameofStudent === "") {
+      if (nameofStudent === "#") {
         callName();
       } else {
         event.preventDefault();
         sortStudents();
       }
-      //console.log(nameofStudent);
+      console.log(nameofStudent);
 
     document.querySelector('#buttonDOM').reset();
     renderToDom("#buttonDOM", domString)
-    
+  }
   };
 
+
 //submitButton();
-buttons();
+button();
 
 
 
   function startApp() {
     sortingHat();
-    submitButton();
+    //submitButton();
 
   }
 startApp();
-}
