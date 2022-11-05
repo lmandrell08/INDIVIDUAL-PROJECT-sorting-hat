@@ -70,17 +70,40 @@ const buttonControl = (event) => {
         callName();
       } else {
         event.preventDefault();
-        sortStudents();
+        //sortStudents('#');
       }
       console.log(nameofStudent);
 
       document.querySelector('#studentNameForm').reset("click");
-      renderToDom('#formDOM', domString)
+      //renderToDom('#formDOM', domString)
   }
   };
 
 //submitButton();
 button();
+
+
+
+//placing students function
+const placeStudents = (arr) => {
+  //console.log(placeStudents);
+  let domString = " ";
+
+  arr.forEach = {
+    domString : `
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">${student.name}</h5>
+                <p class="card-text">${student.house}</p>
+                <a href="#" type= "button" id= "${i}" class="btn btn-primary">Expel student</a>
+            </div>
+        </div>
+`
+  };
+
+  renderToDom("#hogwartsStudents", domString);
+};
+placeStudents();
 
 
 //sorting students function
@@ -127,36 +150,15 @@ const sortStudents = () => {
     };
     newStudents.push(student);
   }
-
+}
   placeStudents(newStudents);
-};
-sortStudents();
 
-//placing students function
-const placeStudents = (arr) => {
-  //console.log(placeStudents);
-  let domString = " ";
-
-  arr.forEach = {
-    domString : `
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">${student.name}</h5>
-                <p class="card-text">${student.house}</p>
-                <a href="#" type= "button" id= "${i}" class="btn btn-primary">Expel student</a>
-            </div>
-        </div>
-`
-  };
-
-  renderToDom("#hogwartsStudents", domString);
-};
-placeStudents();
+//sortStudents();
 
   function startApp() {
     sortingHat();
     //submitButton();
-    sortStudents();
+    //sortStudents();
     placeStudents();
 
   }
