@@ -1,6 +1,35 @@
 console.log("Here stays the Sorting Hat")
-const newStudents = [];
-const theDarkArmy = [];
+const newStudents = [{
+  id: 1,
+  name: "Jake",
+  house: "Gryffindor",
+},
+{
+  id: 2,
+  name: "Fyo",
+  house: "Hufflepuff",
+},
+{
+  id: 3,
+  name: "Piper",
+  house: "Slytherin",
+},
+{
+  id: 4,
+  name: "John",
+  house: "Ravenclaw",
+},
+{
+  id: 5,
+  name: "Mary",
+  house: "Hufflepuff",
+}
+];
+const theDarkArmy = [{
+  id: 6,
+  name: "Joffrey",
+  house: "The Dark Army"
+}];
 
 //render to dom
 const renderToDom = (divId, htmlToRender) => {
@@ -83,27 +112,47 @@ const buttonControl = (event) => {
 button();
 
 
+//student cards to page
+const placeNewStudents = (event) => {
+  console.log("#newStudents")
+  const targetType = event.target.type;
+  const targetId = event.target.id;
+
+  if (targetType === "button") {
+    event.preventDefault();
+
+    const placeStudents = newStudents.splice(targetId, 1);
+
+    newStudents.push(acceptedStudents[0]);
+
+    sortNewStudents(newStudents);
+    placeStudents(newStudents);
+  }
+};
 
 //placing students function
 const placeStudents = (arr) => {
+ 
   //console.log(placeStudents);
-  let domString = " ";
-
-  arr.forEach = {
-    domString : `
+  let domString = ``
+  arr.forEach =((student, i) => {
+    //if (card.type=== "studentName"){
+    domString += `
         <div class="card" style="width: 18rem;">
             <div class="card-body">
-                <h5 class="card-title">${student.name}</h5>
-                <p class="card-text">${student.house}</p>
-                <a href="#" type= "button" id= "${i}" class="btn btn-primary">Expel student</a>
+                <h5 class="card-title"> Name: ${student.name}</h5>
+                <h5 class="card-text"> House: ${student.house}</h5>
+                <button id="expel--${student.id}" type="button" class="btn btn-secondary">Expel</button>
             </div>
         </div>
 `
-  };
+renderToDom("#placeStudentsDOM", domString);    
+}
+  )};
 
-  renderToDom("#hogwartsStudents", domString);
-};
-placeStudents();
+
+
+//placeStudents();
 
 
 //sorting students function
@@ -159,7 +208,7 @@ const sortStudents = () => {
     sortingHat();
     //submitButton();
     //sortStudents();
-    placeStudents();
+    //placeStudents();
 
   }
 startApp();
