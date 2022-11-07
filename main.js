@@ -26,7 +26,7 @@ const newStudents = [{
 }
 ];
 const theDarkArmy = [{
-  id: 6,
+  id: 0,
   name: "Joffrey",
   house: "The Dark Army"
 }];
@@ -47,7 +47,6 @@ const sortingHat = (arr) => {
   <div class="card-body">
     <h5 class="card-title">Welcome to your new home!</h5>
     <p class="card-text">Stay away from the forbidden forrest.</p>
-    <a href="#" id="startButton" class="btn btn-primary">Here you are to be sorted in to your house.</a>
   </div>
 </div>`;
    
@@ -67,6 +66,9 @@ const studentForm = () => {
   <div class="form-floating mb-3">
   <input type="string" placeholder="Enter your name here." class="form-control" id="studentName" required>
   <label for="studentName">Student Name</label>
+  <div class="invalid-feedback">
+        Please enter a student name.
+      </div>
 </div>
 
 <button class="btn btn-primary" id="submitButton" type="submit">Submit</button>
@@ -83,72 +85,108 @@ studentForm();
 const button = () => {
   console.log("button function called");
   document.querySelector(`body`).addEventListener("click", buttonControl);
-  //document
-    //.querySelector(`students`)
-    //.addEventListener("click", expelStudents);
 };
 
 
 const buttonControl = (event) => {
-  console.log("#submitButton");
- 
+  
+ if(event.target.id !== "" && event.target.id !== "studentName" 
+	&& event.target.id !== "studentNameForm" && event.target.id !== "hogwartsStudents" 
+	&& event.target.id !== "expelledStudents" && event.target.id !== "sortingHatDOM")
+ {
   if (event.target.id === "submitButton" && event.target.type === "submit") {
-    //console.log(nameofStudent);
+    console.log("#submitButton");
     const nameofStudent = document.getElementById("studentName").value;
-      if (nameofStudent === "#") {
-        callName();
+      if (nameofStudent === "") {
+        alert("Please enter a valid student name.");
+		console.error("Student name not entered.");
       } else {
-        event.preventDefault();
-        //sortStudents('#');
+			event.preventDefault();
+			sortStudents('#');
+			//placeNewStudents(event);
+			 console.log(nameofStudent);
+
+		  document.querySelector('#studentNameForm').reset("click");
+		  
+		  placeStudents(newStudents);
+		  createDarkArmy(theDarkArmy);
       }
-      console.log(nameofStudent);
-
-      document.querySelector('#studentNameForm').reset("click");
-      //renderToDom('#formDOM', domString)
+     
   }
-  };
-
-//submitButton();
+  else if(event.target.id.includes("expel--")){
+	  console.log("#expelButton");
+	  let darkArmySize = theDarkArmy.length;
+	  let studentId = parseInt(event.target.value);
+	  let newx = newStudents;
+	  const studentRecruit = {
+		id: darkArmySize,
+      name: newStudents[studentId - 1].name,
+      house: "The Dark Army",
+    };
+	  theDarkArmy.push(studentRecruit);
+	  newStudents.splice(studentId - 1, 1)
+	  
+	  placeStudents(newStudents);
+	  createDarkArmy(theDarkArmy);
+	}
+	
+	if(event.target.id !== "hogwartsStudents" && event.target.id !== "expelledStudents" && event.target.id !== "sortingHatDOM" && event.target.id !== "submitButton" && !event.target.id.includes("expel--")){
+		let cardContainer = document.getElementById("cards");
+		let filter = event.target.value;
+		for (var i = 0; i < cardContainer.childNodes[1].children.length; i++){
+			let filterComparison = cardContainer.childNodes[1].children[i].innerText.toLowerCase().indexOf(filter);
+			if(filterComparison === -1 && filter !== "all"){
+				cardContainer.childNodes[1].children[i].style.display = "none";
+			}
+			else if(filterComparison !== -1 && filter !== "all"){
+				cardContainer.childNodes[1].children[i].style.display = "";
+			}
+			else{
+				cardContainer.childNodes[1].children[i].style.display = "";
+			}
+		}
+	}
+  }
+};
+  
+  
+ 
 button();
 
 
-//student cards to page
-const placeNewStudents = (event) => {
-  console.log("#newStudents")
-  const targetType = event.target.type;
-  const targetId = event.target.id;
-
-  if (targetType === "button") {
-    event.preventDefault();
-
-    const placeStudents = newStudents.splice(targetId, 1);
-
-    newStudents.push(acceptedStudents[0]);
-
-    sortNewStudents(newStudents);
-    placeStudents(newStudents);
-  }
-};
-
 //placing students function
 const placeStudents = (arr) => {
- 
-  //console.log(placeStudents);
-  let domString = ``
-  arr.forEach =((student, i) => {
-    //if (card.type=== "studentName"){
-    domString += `
-        <div class="card" style="width: 18rem;">
+ let domString = '';
+
+  arr.forEach(student => {
+     domString += `
+        <div class="card" style="width: 18rem;" id="card--${student.id}">
             <div class="card-body">
                 <h5 class="card-title"> Name: ${student.name}</h5>
                 <h5 class="card-text"> House: ${student.house}</h5>
-                <button id="expel--${student.id}" type="button" class="btn btn-secondary">Expel</button>
+                <button id="expel--${student.id}" type="button" class="btn btn-secondary" value="${student.id}">Expel</button>
             </div>
         </div>
-`
-renderToDom("#placeStudentsDOM", domString);    
-}
-  )};
+		`;
+	    })
+	renderToDom("#hogwartsStudents", domString); 
+  };
+  
+  const createDarkArmy = (arr) => {
+ let darkString = '';
+
+  arr.forEach(student => {
+     darkString += `
+        <div class="card" style="width: 18rem;" id="card--${student.id}">
+            <div class="card-body">
+                <h5 class="card-title"> Name: ${student.name}</h5>
+                <h5 class="card-text"> House: ${student.house}</h5>
+            </div>
+        </div>
+		`;
+	    })
+	renderToDom("#expelledStudents", darkString); 
+  };
 
 
 
@@ -162,9 +200,10 @@ const sortStudents = () => {
   };
 
   const studentHouse = randomNumber();
-
+	let studentBodySize = newStudents.length;
   if (studentHouse === 1) {
     const student = {
+		id: newStudents.length + 1,
       name: document.querySelector("#studentName").value,
       house: "Gryffindor",
       crest: `https://static.wikia.nocookie.net/pottermore/images/1/16/Gryffindor_crest.png`,
@@ -172,8 +211,9 @@ const sortStudents = () => {
     };
     newStudents.push(student);
   }
-  if (studentHouse === 2) {
+  else if (studentHouse === 2) {
     const student = {
+		id: newStudents.length + 1,
       name: document.querySelector("#studentName").value,
       house: "Hufflepuff",
       crest: `https://static.wikia.nocookie.net/pottermore/images/5/5e/Hufflepuff_crest.png`,
@@ -181,8 +221,9 @@ const sortStudents = () => {
     };
     newStudents.push(student);
   }
-  if (studentHouse === 3) {
+  else if (studentHouse === 3) {
     const student = {
+		id: newStudents.length + 1,
       name: document.querySelector("#studentName").value,
       house: "Ravenclaw",
       crest: `https://static.wikia.nocookie.net/pottermore/images/4/4f/Ravenclaw_crest.png`,
@@ -190,22 +231,33 @@ const sortStudents = () => {
     };
     newStudents.push(student);
   }
-  if (studentHouse === 4) {
+  else{ 
     const student = {
+		id: newStudents.length + 1,
       name: document.querySelector("#studentName").value,
       house: "Slytherin",
       crest: `https://static.wikia.nocookie.net/pottermore/images/4/45/Slytherin_Crest.png`,
       style: "sly-style",
     };
-    newStudents.push(student);
+	newStudents.push(student);
   }
+  let x = theDarkArmy;
+  for (var i = 0; i < newStudents.length; i++){
+		newStudents[i].id = i + 1;
+	}
+  
+  placeStudents(newStudents);
+  createDarkArmy(theDarkArmy);
 }
   placeStudents(newStudents);
+  createDarkArmy(theDarkArmy);
 
 //sortStudents();
 
   function startApp() {
     sortingHat();
+	placeStudents(newStudents);
+	createDarkArmy(theDarkArmy);
     //submitButton();
     //sortStudents();
     //placeStudents();
